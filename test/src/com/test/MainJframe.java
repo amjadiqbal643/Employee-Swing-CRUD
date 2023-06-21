@@ -14,7 +14,6 @@ public class MainJframe {
 	public static void main(String[] args) {
 		 JFrameDemo Demo = new JFrameDemo();
 	}
-	 //Pojo class
-	 //class with setter and getter
+
 	
 }
