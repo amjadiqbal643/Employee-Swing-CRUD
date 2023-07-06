@@ -14,8 +14,8 @@ public class JFrameDemo implements ActionListener {
 	
 	
 	
-	JFrame record= new JFrame();
-	JTable table=new JTable();
+	
+	//JTable table=new JTable();
 	
 	
 	JButton Button1=new JButton();
@@ -94,7 +94,8 @@ public class JFrameDemo implements ActionListener {
 		 Button1.setFont(new Font("Comic Sans",Font.BOLD,16));
 		 Button1.addActionListener(this);
 		 
-		 
+		 //table.setBounds(10, 10, 300, 350);
+		// table.setVisible(false);
 		 
 		 Button2.setSize(50,30);
 		 Button2.setBounds(360, 400, 150, 50);
@@ -135,6 +136,9 @@ public class JFrameDemo implements ActionListener {
 		 clear.setText("Clear ");
 		 clear.setFont(new Font("Comic Sans",Font.BOLD,16));
 		 clear.addActionListener(this);
+		 
+		 
+		 
 		
 		
 		JFrame frame= new JFrame();
@@ -177,10 +181,7 @@ public class JFrameDemo implements ActionListener {
 		 
 		
 		
-		record.setTitle(" All Employee Record ");
-		record.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		record.setSize(400,400);
-		record.setLayout(null);
+		
 		
 		
 	}
@@ -191,8 +192,7 @@ public class JFrameDemo implements ActionListener {
 		
 		if(e.getSource().equals(Button1)) {
 
-			record.setVisible(true);
-		
+			JTableExamples table = new JTableExamples(dbUtil);		
 		}else if(e.getSource().equals(Button3)) {
 			
 	

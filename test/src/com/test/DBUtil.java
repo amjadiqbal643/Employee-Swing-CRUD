@@ -1,12 +1,11 @@
 package com.test;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+
 
 public class DBUtil {
 	
@@ -37,7 +36,7 @@ public class DBUtil {
 			
 			Statement st=con.createStatement();
 			//int salary=Integer.parseInt(salaryStr);
-			String Query="insert into employee (Name,Salary,Address,)"+
+			String Query="insert into employee (Name,Salary,Address)"+
 			"values('"+name+"',"+salaryStr+",'"+address+"')";
 			System.out.println(Query);
 			st.executeUpdate(Query);
@@ -127,6 +126,62 @@ public class DBUtil {
 	
    }
 
+public  String[][] showAllEmployee() {
 	
+	String values[][] = null;
+	
+	try {
+		
+		int count = 0;
+	Statement st=con.createStatement();
+	String countQuery = "select count(*) as rowCount from employee";
+	
+	ResultSet rset = st.executeQuery(countQuery);
+	if(rset.next())
+		count = rset.getInt("rowCount");
+	
+	
+
+	 values = new String[count][4];
+	      
+			
+			
+			String query = "select * from employee";
+			ResultSet rs= st.executeQuery(query);
+			
+
+			
+			int row   = 0;
+			
+			while(rs.next()) {
+				int column = 0;
+				int    id = rs.getInt("EmpId");
+				String name = rs.getString("Name");
+				double salary = rs.getDouble("Salary");
+				String address = rs.getString("Address");
+				
+				
+				
+				
+				values[row][column] = ""+id;
+				column++;
+				values[row][column] = name;
+				column++;
+				values[row][column] = ""+salary;
+				column++;
+				values[row][column] = address;
+				
+				row++;
+			}
+			
+	   }catch (Exception e) {
+		   e.printStackTrace();
+	   }
+	   
+	
+	return values;
+	
+   }
+
 
 }

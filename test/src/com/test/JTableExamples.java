@@ -14,7 +14,7 @@ public class JTableExamples {
 	JTable j;
 
 	// Constructor
-	JTableExamples()
+	JTableExamples(DBUtil dbUtil)
 	{
 		// Frame initialization
 		f = new JFrame();
@@ -23,10 +23,18 @@ public class JTableExamples {
 		f.setTitle("JTable Example");
 
 		// Data to be displayed in the JTable
-		String[][] data = {
-				{ "1","Kundan Kumar Jha", "27800", "Hyd" },//row 1
-				{ "2","Anand Jha", "32540", "Karachi" }//row 2
-		};
+		//1 //2d array data
+		//2 //Dataset using table
+		//3 //when dont know number of column = table model
+		//4 //you want add a jbutton inside table jcomponent using ing table
+
+		String[][] data = dbUtil.showAllEmployee();
+		
+		
+					
+
+		
+		
 		
 		//method declare with two dimensional array
 		//learn how to store data in two dimensional array
@@ -35,6 +43,9 @@ public class JTableExamples {
 
 		// Column Names
 		String[] columnNames = { "ID","Name", "Salary", "Address" };
+		
+		
+		
 
 		// Initializing the JTable
 		j = new JTable(data, columnNames);
@@ -49,9 +60,16 @@ public class JTableExamples {
 		f.setVisible(true);
 	}
 
+	
+	
+	
+	
+	
+	
+	
 	// Driver  method
 	public static void main(String[] args)
 	{
-		new JTableExamples();
+		//new JTableExamples();
 	}
 }
