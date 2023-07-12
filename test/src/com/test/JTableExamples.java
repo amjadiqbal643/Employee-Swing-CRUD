@@ -42,7 +42,7 @@ public class JTableExamples {
 		//String[][] data = dbUtil.getAllData();//return two dimensional array
 
 		// Column Names
-		String[] columnNames = { "ID","Name", "Salary", "Address" };
+		String[] columnNames = { "ID","Name", "Salary", "Address", "Departments" };
 		
 		
 		

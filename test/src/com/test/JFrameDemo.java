@@ -17,8 +17,9 @@ public class JFrameDemo implements ActionListener {
 	
 	//JTable table=new JTable();
 	
+	JComboBox departments = new JComboBox();
 	
-	JButton Button1=new JButton();
+	JButton Button1 = new JButton();
 	JButton Button3= new JButton();
 	 JButton Button4= new JButton();
 	 JButton Button5= new JButton();
@@ -35,10 +36,26 @@ public class JFrameDemo implements ActionListener {
 	 JTextField text4=new JTextField();
 	public JFrameDemo() {
 		
+		
+		
 		JLabel label= new JLabel();
 		label.setText("Employee ID :  ");
 	    label.setFont(new Font("Comic Sans",Font.BOLD,16));
 	    label.setBounds(20, 10, 170, 30);
+	    
+	    
+	    JLabel labelDep= new JLabel();
+	    labelDep.setText("Departments");
+	    labelDep.setFont(new Font("Comic Sans",Font.BOLD,16));
+	    labelDep.setBounds(20, 58, 170, 30);
+	    
+	    departments.setBounds(200, 58, 170, 30);
+	    
+	    //array of departments
+	    String[] departmentData = null;
+	    departmentData = dbUtil.getDepartments();
+	    for(String s:departmentData)
+	    departments.addItem(s);
 	    
 	    
 	    text.setFont(new Font("Comic Sans",Font.BOLD,16)); 
@@ -150,6 +167,9 @@ public class JFrameDemo implements ActionListener {
 		
 		frame.add(label);
 		frame.add(text);
+		
+		frame.add(labelDep);
+		frame.add(departments);
         
 		frame.add(label2);
 		frame.add(text2);
@@ -189,25 +209,48 @@ public class JFrameDemo implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
-		
-		if(e.getSource().equals(Button1)) {
+		if(e.getSource().equals(departments)) {
+			
+               //String name=departments.getString();
+			//departments.addItem(name);
+			
+			//dbUtil.ComboBox(name);
+			
+		}
+	else if(e.getSource().equals(Button1)) {
 
 			JTableExamples table = new JTableExamples(dbUtil);		
 		}else if(e.getSource().equals(Button3)) {
 			
-	
+	         int departId=0;
 			String name=text2.getText();
 			String salary=text3.getText();
 			String add=text4.getText();
-			dbUtil.employeedb_insert( name, salary, add);
+			
+			String departName = departments.getSelectedItem().toString();
+			
+			String[] dpartmentData = dbUtil.getDepartmentByName(departName);
+			departId  = Integer.parseInt(dpartmentData[0]);
+			
+			
+			dbUtil.employeedb_insert( name, salary, add, departId);
 			
 		}else if(e.getSource().equals(Button4)) {
 			
             String id= text.getText();
-			String name=text2.getText(); 
+ 
+			String name=text2.getText();
+			
 			String salary=text3.getText();
+			
 			String add=text4.getText();
-			dbUtil.employeedb_update(id , name , salary,add);
+			
+			int departId=0;
+            String departName = departments.getSelectedItem().toString();
+			String[] dpartmentData = dbUtil.getDepartmentByName(departName);
+			departId  = Integer.parseInt(dpartmentData[0]);
+		
+			dbUtil.employeedb_update(id , name , salary, add, departId);
 		
 			
 		}else if(e.getSource().equals(Button5)) {
@@ -229,12 +272,23 @@ public class JFrameDemo implements ActionListener {
 
 				JOptionPane.showMessageDialog(null, "No Data found for This Entry");
 			}else {
+				
 			 text.setText(values[0]);
 			 text2.setText(values[1]);
 			 text3.setText(values[2]);
 			 text4.setText(values[3]);
+			 
+			 String[] deprtamentData = dbUtil.getDepartmentByID(Integer.parseInt(values[4]));
+			 
+			 
+			 
+			 departments.setSelectedItem(deprtamentData[1]);
+			 
 			}
 			
+			
+			
+			//departments.setSelectedIndex(2);
 			 
 		}else if(e.getSource().equals(Button)) {
 			
@@ -253,6 +307,7 @@ public class JFrameDemo implements ActionListener {
 			 text2.setText(values[1]);
 			 text3.setText(values[2]);
 			 text4.setText(values[3]);
+			 departments.setSelectedItem("");
 			}
 			
 
@@ -273,6 +328,7 @@ public class JFrameDemo implements ActionListener {
 			 text2.setText(values[1]);
 			 text3.setText(values[2]);
 			 text4.setText(values[3]);
+			 departments.setSelectedItem("");
 			}
 		
 		}

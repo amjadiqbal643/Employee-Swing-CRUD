@@ -30,14 +30,14 @@ public class DBUtil {
 	
 	
 	// Add data into database
-	public void employeedb_insert(String name, String salaryStr, String address) {
+	public void employeedb_insert(String name, String salaryStr, String address, int departments) {
 		
 		try {
 			
 			Statement st=con.createStatement();
 			//int salary=Integer.parseInt(salaryStr);
-			String Query="insert into employee (Name,Salary,Address)"+
-			"values('"+name+"',"+salaryStr+",'"+address+"')";
+			String Query="insert into employee (Name,Salary,Address,Department)"+
+			"values('"+name+"',"+salaryStr+",'"+address+"',"+departments+")";
 			System.out.println(Query);
 			st.executeUpdate(Query);
 			
@@ -50,17 +50,17 @@ public class DBUtil {
 	}
 
 	// Update data into database
-   public void employeedb_update(String Empid ,String name, String salaryStr, String address ) {
+   public void employeedb_update(String Empid ,String name, String salaryStr, String address, int departments ) {
 		
 		try {
 			
 			Statement st=con.createStatement();
-			int salary=Integer.parseInt(salaryStr);
 			
 			int id=Integer.parseInt(Empid);
-			String Query="update employee set Name='"+name+"', Salary='"+salaryStr+"',Address='"+address+"' where EmpId="+Empid;
+			String Query="update employee set Name='"+name+"', Salary='"+salaryStr+"',Address='"+address+"',Department='"+departments+"' where EmpId="+Empid;
 			System.out.println(Query);
 			st.executeUpdate(Query);
+			
 		
 			JOptionPane.showMessageDialog(null, "Employee update Succesfully...");
 		} catch (SQLException e) { 
@@ -92,7 +92,7 @@ public class DBUtil {
  //  return type method
    public String[] searchEmployee(String Empid) {
 	   
-	   String values[] = new String[4];
+	   String values[] = new String[5];
 	   
 	   try {
 		   
@@ -106,11 +106,14 @@ public class DBUtil {
 				String name = rs.getString("Name");
 				double salary = rs.getDouble("Salary");
 				String address = rs.getString("Address");
+				int depId = rs.getInt("Department");
 				
 				values[0] = ""+id;
 				values[1] = name;
 				values[2] = ""+salary;
 				values[3] = address;
+				values[4] = ""+depId;
+				
 				
 				/*System.out.print(id+" ");
 				System.out.print(name+" ");
@@ -142,7 +145,7 @@ public  String[][] showAllEmployee() {
 	
 	
 
-	 values = new String[count][4];
+	 values = new String[count][5];
 	      
 			
 			
@@ -159,7 +162,7 @@ public  String[][] showAllEmployee() {
 				String name = rs.getString("Name");
 				double salary = rs.getDouble("Salary");
 				String address = rs.getString("Address");
-				
+				//int departments = 
 				
 				
 				
@@ -170,7 +173,8 @@ public  String[][] showAllEmployee() {
 				values[row][column] = ""+salary;
 				column++;
 				values[row][column] = address;
-				
+				column++;
+				values[row][column] ="";//departments;
 				row++;
 			}
 			
@@ -183,5 +187,123 @@ public  String[][] showAllEmployee() {
 	
    }
 
+
+public String[] getDepartments() {
+    String[] data = null;
+    try {
+        Statement statement = con.createStatement();
+        String query = "SELECT dep_name FROM departments";
+        ResultSet resultSet = statement.executeQuery(query);
+
+        // Get the count of rows in the result set
+        int rowCount = 0;
+        while(resultSet.next()) {
+            rowCount++;
+        }
+        
+        resultSet = statement.executeQuery(query);
+
+        // Create an array to store the data
+        data = new String[rowCount];
+
+        // Iterate through the result set and fetch the data
+        int index = 0;
+        while (resultSet.next()) {
+            String value = resultSet.getString("dep_name");
+            data[index] = value;
+            index++;
+        }
+
+        resultSet.close();
+        statement.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+
+    return data;
+}
+
+
+
+public String[] getDepartmentByName(String departName) {
+	String[] data = new String[2];;
+    try {
+        Statement statement = con.createStatement();
+        String query = "SELECT * FROM departments where dep_name = '"+departName+"'";
+        ResultSet resultSet = statement.executeQuery(query);
+
+
+        // Create an array to store the data
+        
+
+        // Iterate through the result set and fetch the data
+        
+        if (resultSet.next()) {
+            String dep_name    = resultSet.getString("dep_name");
+            String departId = ""+resultSet.getInt("dep_Id");
+           
+            data[0] = departId;
+            data[1] = dep_name;
+        }
+
+        resultSet.close();
+        statement.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return data;
+}
+
+public String[] getDepartmentByID(int depId) {
+	String[] data = new String[2];;
+    try {
+        Statement statement = con.createStatement();
+        String query = "SELECT * FROM departments where dep_Id = "+depId;
+        ResultSet resultSet = statement.executeQuery(query);
+
+
+        // Create an array to store the data
+        
+
+        // Iterate through the result set and fetch the data
+        
+        
+        if (resultSet.next()) {
+            String dep_name    = resultSet.getString("dep_name");
+            String departId = ""+resultSet.getInt("dep_Id");
+           
+            data[0] = departId;
+            data[1] = dep_name;
+        }
+
+        resultSet.close();
+        statement.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return data;
+}
+
+
+
+/*
+public void getDepartments() {
+	
+	try {
+		
+		Statement st=con.createStatement();
+		
+		String query = "select dep_name from departments";
+		ResultSet rs= st.executeQuery(query);
+		while (rs.next()) {
+			String name= rs.getString("dep_name");
+			
+		}
+	
+	} catch (SQLException e) { 
+		e.printStackTrace();
+	}
+}
+*/
 
 }
